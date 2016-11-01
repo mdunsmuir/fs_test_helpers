@@ -1,0 +1,15 @@
+[package]
+name = "fs_test_helpers"
+version = "0.1.0"
+description = "Helpers (including some re-exports of other crates) for testing stuff that touches the filesystem."
+license = "MIT"
+authors = ["Michael Dunsmuir <mjdunsmuir@gmail.com>"]
+include = [
+  "**/*.rs",
+  "Cargo.toml",
+  "README.md"
+]
+
+[dependencies]
+tempdir = "0.3"
+uuid = { version = "0.2", features = ["v4"] }
