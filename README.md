@@ -1,5 +1,7 @@
 # fs_test_helpers
 
+[![Build Status](https://travis-ci.org/mdunsmuir/fs_test_helpers.svg)](https://travis-ci.org/mdunsmuir/fs_test_helpers)
+
 Some helpers (including some re-exports of other crates) for testing stuff
 that touches the filesystem.
 
