@@ -138,10 +138,7 @@ impl Fake {
 
     /// Write some data into a `Fake::File` when it gets created.
     ///
-    /// # Panics
-    ///
-    /// * If called on a `Fake::Dir`
-    ///   (only files can have contents written to them)
+    /// **Panics** if called on a `Fake::Dir`
     pub fn fill_with<T: ToString>(self, contents: T) -> Self {
         match self {
             Dir(..) => panic!("cannot add contents to Dir"),
@@ -153,12 +150,33 @@ impl Fake {
     /// gets created. Useful e.g. if you need to verify that a file
     /// has been copied intact.
     ///
-    /// # Panics
-    ///
-    /// * If called on a `Fake::Dir`
-    ///   (only files can have contents written to them)
+    /// **Panics** if called on a `Fake::Dir`
     pub fn fill_with_uuid(self) -> Self {
         let uuid = uuid::Uuid::new_v4().simple().to_string();
         self.fill_with(uuid)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    extern crate std;
+    use std::io::Read;
+
+    use super::Fake;
+    use super::super::TempDir;
+
+    #[test]
+    fn files_get_correct_contents() {
+        let temp_dir = TempDir::new("fth_test").unwrap();
+        let file = Fake::file("some.file").fill_with("foobar");
+        file.create(&temp_dir).unwrap();
+
+        let mut buf = String::new();
+        std::fs::File::open(temp_dir.as_ref().join("some.file"))
+            .unwrap()
+            .read_to_string(&mut buf)
+            .unwrap();
+
+        assert_eq!(buf, "foobar");
     }
 }

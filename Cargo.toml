@@ -13,3 +13,4 @@ include = [
 [dependencies]
 tempdir = "0.3"
 uuid = { version = "0.2", features = ["v4"] }
+itertools = "0.5"
